@@ -7,11 +7,12 @@ import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import tech.syss.api.model.audit.Auditable;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
-public class Item {
+public class Item extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
