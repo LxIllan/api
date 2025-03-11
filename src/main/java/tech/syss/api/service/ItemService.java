@@ -2,7 +2,9 @@ package tech.syss.api.service;
 
 import tech.syss.api.model.Item;
 import tech.syss.api.repository.ItemRepository;
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,8 +15,8 @@ public class ItemService {
         this.itemRepository = itemRepository;
     }
 
-    public List<Item> all() {
-        return itemRepository.findAll();
+    public Page<Item> all(Specification<Item> spec, Pageable pageable) {
+        return itemRepository.findAll(spec, pageable);
     }
 
     public Item get(Long id) {
