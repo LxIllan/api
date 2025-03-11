@@ -25,13 +25,17 @@ public class ItemController {
     }
 
     @GetMapping
-    public List<Item> all() {
-        return itemService.all();
+    public ResponseEntity<List<Item>> all() {
+        return ResponseEntity.ok().body(itemService.all();
     }
 
     @GetMapping("/{id}")
-    public Item get(@PathVariable Long id) {
-        return itemService.get(id);
+    public ResponseEntity<Item> get(@PathVariable Long id) {
+        Item item = itemService.get(id);
+        if (item == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body(item);
     }
 
     @PostMapping
@@ -41,13 +45,18 @@ public class ItemController {
     }
 
     @PutMapping("/{id}")
-    public Item update(@PathVariable Long id, @RequestBody Item item) {
+    public ResponseEntity<Item> update(@PathVariable Long id, @RequestBody Item item) {
+        if (itemService.get(id) == null) {
+            return ResponseEntity.notFound().build();
+        }
         item.setId(id);
-        return itemService.save(item);
+        itemService.save(item);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public ResponseEntity<Item> delete(@PathVariable Long id) {
         itemService.delete(id);
+        return ResponseEntity.ok().build();
     }
 }
