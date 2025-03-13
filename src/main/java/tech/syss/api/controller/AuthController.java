@@ -21,6 +21,9 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody Map<String, String> request) {
+        if (authService.findByUsername(request.get("username")).orElse(null) != null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username is already in use.");
+        }
         User user = authService.register(request.get("username"), request.get("password"), "user");
         return ResponseEntity.ok(user);
     }
