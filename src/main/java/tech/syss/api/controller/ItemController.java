@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
@@ -29,7 +28,7 @@ public class ItemController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<Item>> all(
+    public ResponseEntity<Object> all(
         @RequestParam(required = false) String name,
         @RequestParam(required = false) Double minPrice,
         @RequestParam(required = false) Double maxPrice,
@@ -39,8 +38,8 @@ public class ItemController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Item> get(@PathVariable Long id) {
-        Item item = itemService.get(id);
+    public ResponseEntity<Object> get(@PathVariable Long id) {
+        Object item = itemService.get(id);
         if (item == null) {
             return ResponseEntity.notFound().build();
         }
