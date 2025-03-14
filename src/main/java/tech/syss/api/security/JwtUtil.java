@@ -1,6 +1,7 @@
 package tech.syss.api.security;
 
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -10,6 +11,7 @@ import java.util.Date;
 
 @Component
 public class JwtUtil {
+
     private static final String SECRET_KEY = "YourSecretKeyForJWTMustBeAtLeast32Characters";
     private static final long EXPIRATION_TIME = 3600000; // 1 hour
 
@@ -24,13 +26,24 @@ public class JwtUtil {
                 .compact();
     }
 
-    public String extractUsername(String token) {
+    public Claims extractClaims(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
+            .setSigningKey(key)
+            .build()
+            .parseClaimsJws(token)
+            .getBody();
+    }
+
+    public String extractUsername(String token) {
+        return extractClaims(token).getSubject();
+    }
+
+    public boolean isTokenExpired(String token) {
+        return extractClaims(token).getExpiration().before(new Date());
+    }
+
+    public boolean validateToken(String token, String username) {
+        return username.equals(extractUsername(token)) && !isTokenExpired(token);
     }
 
     public boolean validateToken(String token) {
