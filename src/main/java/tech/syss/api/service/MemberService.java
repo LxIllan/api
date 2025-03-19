@@ -6,17 +6,20 @@ import java.util.Random;
 import org.springframework.stereotype.Service;
 import tech.syss.api.model.Member;
 import tech.syss.api.model.Membership;
+import tech.syss.api.model.Payment;
 import tech.syss.api.repository.MemberRepository;
 
 @Service
 public class MemberService {
     private MemberRepository memberRepository;
     private MembershipService membershipService;
+    private PaymentService paymentService;
     private final Random random = new Random();
 
-    public MemberService(MemberRepository memberRepository, MembershipService membershipService) {
+    public MemberService(MemberRepository memberRepository, MembershipService membershipService, PaymentService paymentService) {
         this.memberRepository = memberRepository;
         this.membershipService = membershipService;
+        this.paymentService = paymentService;
     }
 
     public Member create(String name, String lastName, String email, String phone, Long membershipId) {
@@ -33,7 +36,16 @@ public class MemberService {
         member.setPhone(phone);
         member.setMembership(membership);
         member.setEndMembership(endMembership);
-        return memberRepository.save(member);
+        memberRepository.save(member);
+
+        Payment payment = paymentService.create(member.getId(), membership.getId(), membership.getPrice());
+        if (payment == null) {
+            throw new RuntimeException("Payment not created.");
+        }
+
+        // TODO: Implement the update method.
+
+        return member;
     }
 
     public List<Member> all() {
@@ -51,7 +63,6 @@ public class MemberService {
 
     // TODO: Implement the update method.
     // TODO: Implement set assistance.
-    // TODO: Implement set payment.
     // TODO: Implement save photo.
 
     private LocalDateTime getEndMembership(LocalDateTime now, Membership membership) {
