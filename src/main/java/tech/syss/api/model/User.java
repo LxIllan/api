@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.GenerationType;
 import lombok.AllArgsConstructor;
@@ -30,6 +31,7 @@ public class User implements UserDetails {
     private String username;
 
     @Column(nullable = false)
+    @JsonIgnore
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
