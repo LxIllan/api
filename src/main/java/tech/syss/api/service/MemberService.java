@@ -78,6 +78,6 @@ public class MemberService {
     }
 
     public Member findByCode(String code) {
-        return memberRepository.findByCode(code);
+        return memberRepository.findByCode(code).orElse(null);
     }
 }
