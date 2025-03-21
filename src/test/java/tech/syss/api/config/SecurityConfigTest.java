@@ -13,6 +13,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import tech.syss.api.security.JwtUtil;
+import tech.syss.api.service.AuthService;
 
 @TestConfiguration
 public class SecurityConfigTest {
@@ -60,5 +62,17 @@ public class SecurityConfigTest {
                 return object;
             }
         };
+    }
+
+    @Bean
+    @Primary
+    public AuthService authService() {
+        return mock(AuthService.class);
+    }
+
+    @Bean
+    @Primary
+    public JwtUtil jwtUtil() {
+        return mock(JwtUtil.class);
     }
 }
