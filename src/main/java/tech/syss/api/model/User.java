@@ -6,6 +6,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
 import jakarta.persistence.GeneratedValue;
 import java.util.Collection;
 import java.util.HashSet;
@@ -21,6 +22,7 @@ import lombok.Setter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "users")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class User implements UserDetails {
     @Id
