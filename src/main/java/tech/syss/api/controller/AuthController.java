@@ -44,11 +44,10 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> request) {
-        User user = userService.findByUsername(request.get("username")).orElse(null);
-        if (user == null) {
+        String token = authService.login(request.get("username"), request.get("password"));
+        if (token == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password.");
         }
-
-        return ResponseEntity.ok(Map.of("token", authService.login(request.get("username"), request.get("password"))));
+        return ResponseEntity.ok(Map.of("token", token));
     }
 }
