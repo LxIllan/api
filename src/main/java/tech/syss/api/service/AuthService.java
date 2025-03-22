@@ -20,4 +20,12 @@ public class AuthService {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         return jwtUtil.generateToken(username);
     }
+
+    public User getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof User) {
+            return (User) authentication.getPrincipal();
+        }
+        return null;
+    }
 }

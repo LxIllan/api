@@ -23,22 +23,28 @@ public class Payment {
 
     @ManyToOne
     @JoinColumn(name = "member_id", nullable = false)
-    @JsonIgnoreProperties({"createdAt", "updatedAt", "membership", "phone", "photo"})
+    @JsonIgnoreProperties({"membership", "phone", "photo", "createdAt", "updatedAt"})
     private Member member;
 
     @ManyToOne
     @JoinColumn(name = "membership_id", nullable = false)
-    @JsonIgnoreProperties({"createdAt", "updatedAt", "months", "weeks", "price"})
+    @JsonIgnoreProperties({"months", "weeks", "price", "createdAt", "updatedAt"})
     private Membership membership;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnoreProperties({"credentialsNonExpired", "accountNonExpired", "accountNonLocked", "roles", "createdAt", "updatedAt"})
+    private User user;
 
     private Double price;
 
     @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime date;
 
-    public Payment(Member member, Membership membership, Double price, LocalDateTime date) {
+    public Payment(Member member, Membership membership, User user, Double price, LocalDateTime date) {
         this.member = member;
         this.membership = membership;
+        this.user = user;
         this.price = price;
         this.date = date;
     }
