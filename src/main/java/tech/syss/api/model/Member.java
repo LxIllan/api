@@ -43,6 +43,19 @@ public class Member extends Auditable {
     @Column(columnDefinition = "DATE")
     private LocalDate endMembership;
 
+    public Member(String code, String name, String lastName, String email, String phone, String photo,
+            Membership membership,
+            LocalDate endMembership) {
+        this.code = code;
+        this.name = name;
+        this.lastName = lastName;
+        this.email = email;
+        this.phone = phone;
+        this.photo = photo;
+        this.membership = membership;
+        this.endMembership = endMembership;
+    }
+
     // TODO: Add Payments.
     // TODO: Add Assitances.
 }
