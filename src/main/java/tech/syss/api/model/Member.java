@@ -1,6 +1,6 @@
 package tech.syss.api.model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,8 +15,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import tech.syss.api.model.audit.Auditable;
 
-@Getter @Setter
-@Entity @NoArgsConstructor @AllArgsConstructor
+@Getter
+@Setter
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Member extends Auditable {
 
     @Id
@@ -34,11 +37,11 @@ public class Member extends Auditable {
 
     @ManyToOne
     @JoinColumn(name = "membership_id", nullable = false)
-    @JsonIgnoreProperties({"createdAt", "updatedAt", "months", "weeks", "price"})
+    @JsonIgnoreProperties({ "createdAt", "updatedAt", "months", "weeks", "price" })
     private Membership membership;
 
-    @Column(columnDefinition = "TIMESTAMP")
-    private LocalDateTime endMembership;
+    @Column(columnDefinition = "DATE")
+    private LocalDate endMembership;
 
     // TODO: Add Payments.
     // TODO: Add Assitances.

@@ -1,6 +1,6 @@
 package tech.syss.api.service;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Random;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,8 @@ public class MemberService {
     private final AuthService authService;
     private final Random random = new Random();
 
-    public MemberService(MemberRepository memberRepository, MembershipService membershipService, PaymentService paymentService, AuthService authService) {
+    public MemberService(MemberRepository memberRepository, MembershipService membershipService,
+            PaymentService paymentService, AuthService authService) {
         this.memberRepository = memberRepository;
         this.membershipService = membershipService;
         this.paymentService = paymentService;
@@ -30,7 +31,6 @@ public class MemberService {
         if (membership == null) {
             throw new RuntimeException("Membership not found.");
         }
-        LocalDateTime endMembership = getEndMembership(LocalDateTime.now(), membership);
         Member member = new Member();
         member.setCode(generateUniqueCode());
         member.setName(name);
@@ -38,7 +38,7 @@ public class MemberService {
         member.setEmail(email);
         member.setPhone(phone);
         member.setMembership(membership);
-        member.setEndMembership(endMembership);
+        member.setEndMembership(getEndMembership(LocalDate.now(), membership));
         memberRepository.save(member);
 
         User user = authService.getCurrentUser();
@@ -46,7 +46,8 @@ public class MemberService {
             throw new RuntimeException("User not found.");
         }
 
-        Payment payment = paymentService.create(member.getId(), membership.getId(), user.getId(), membership.getPrice());
+        Payment payment = paymentService.create(member.getId(), membership.getId(), user.getId(),
+                membership.getPrice());
         if (payment == null) {
             throw new RuntimeException("Payment not created.");
         }
@@ -73,7 +74,7 @@ public class MemberService {
     // TODO: Implement set assistance.
     // TODO: Implement save photo.
 
-    private LocalDateTime getEndMembership(LocalDateTime now, Membership membership) {
+    private LocalDate getEndMembership(LocalDate now, Membership membership) {
         return now.plusMonths(membership.getMonths()).plusWeeks(membership.getWeeks());
     }
 
