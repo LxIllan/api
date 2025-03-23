@@ -18,13 +18,14 @@ public class DataInitializer implements CommandLineRunner {
     private final MembershipRepository membershipRepository;
     private final UserService userService;
 
-    public DataInitializer(RoleRepository roleRepository, UserRepository userRepository, MembershipRepository membershipRepository,
-        UserService userService) {
-            this.roleRepository = roleRepository;
-            this.userRepository = userRepository;
-            this.membershipRepository = membershipRepository;
-            this.userService = userService;
-        }
+    public DataInitializer(RoleRepository roleRepository, UserRepository userRepository,
+            MembershipRepository membershipRepository,
+            UserService userService) {
+        this.roleRepository = roleRepository;
+        this.userRepository = userRepository;
+        this.membershipRepository = membershipRepository;
+        this.userService = userService;
+    }
 
     @Override
     public void run(String... args) throws Exception {
@@ -39,10 +40,10 @@ public class DataInitializer implements CommandLineRunner {
         }
 
         if (membershipRepository.count() == 0) {
-            membershipRepository.save(new Membership("Monthly", 1, 0, 350.0));
-            membershipRepository.save(new Membership("Quarter", 3, 0, 900.0));
-            membershipRepository.save(new Membership("Yearly", 12, 0, 3500.0));
-            membershipRepository.save(new Membership("Weekly", 0, 1, 100.0));
+            membershipRepository.save(new Membership("Monthly", 1, 0, 350.0, null, null));
+            membershipRepository.save(new Membership("Quarter", 3, 0, 900.0, null, null));
+            membershipRepository.save(new Membership("Yearly", 12, 0, 3500.0, null, null));
+            membershipRepository.save(new Membership("Weekly", 0, 1, 100.0, null, null));
         }
     }
 }

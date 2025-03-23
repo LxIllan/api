@@ -20,7 +20,7 @@ public class MemberRepositoryTest {
 
     @Test
     void testFindByCode() {
-        Membership membership = new Membership("Monthly", 1, 0, 350.0);
+        Membership membership = new Membership("Monthly", 1, 0, 350.0, null, null);
         membershipRepository.save(membership);
         Member member = new Member(1L, "0405", "Fernando", "Illan", "Fernando.Illan@syss.tech", "3861063066", "", membership, LocalDateTime.now().plusMonths(1));
         memberRepository.save(member);
