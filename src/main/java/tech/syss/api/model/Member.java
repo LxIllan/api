@@ -1,6 +1,8 @@
 package tech.syss.api.model;
 
 import java.time.LocalDate;
+import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -42,6 +45,10 @@ public class Member extends Auditable {
 
     @Column(columnDefinition = "DATE")
     private LocalDate endMembership;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "member")
+    private List<Attendance> attendances;
 
     public Member(String code, String name, String lastName, String email, String phone, String photo,
             Membership membership,
